@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache>
+    <!-- 指定一个文件目录，当EhCache把数据写到硬盘上时，将把数据写到这个文件目录下 -->
+    <diskStore path="java.io.tmpdir"/>
+
+    <!-- 设定缓存的默认数据过期策略 -->
+    <defaultCache
+            maxElementsInMemory="10000"
+            eternal="false"
+            timeToLiveSeconds="600"/>
+
+    <cache name="grayServiceCache"
+           maxElementsInMemory="10000"
+           eternal="false"
+           timeToLiveSeconds="600"/>
+
+</ehcache>
+
+
+
+        <!--
+         1、内存存储数量满了，可以导入到磁盘
+         2、缓存时间为10分钟
+
+        timeToLiveSeconds和timeToIdleSeconds
+        timeToLiveSeconds=x：缓存自创建日期起至失效时的间隔时间x；
+        timeToIdleSeconds=y：缓存创建以后，最后一次访问缓存的日期至失效之时的时间间隔y；
+
+        如果仅有timeToLiveSeconds那么自创建时间开始 间隔x后缓存失效；
+        如果没有timeToLiveSeconds那么自最后一次访问缓存 间隔y后 缓存失效；
+        如果既有timeToLiveSeconds也有timeToIdleSeconds那么取最小数算作间隔时间；min(x,y);
+        经过测试其计算原则是：
+        若自创建缓存后一直都没有访问缓存，那么间隔x后失效，若自创建缓存后有N次访问缓存，那么计算(最后一次访问缓存时间+y ) 即：按照timeToIdleSeconds计算，但总存活时间不超过 y;
+
+        举例：
+        timeToIdleSeconds=120；
+        timeToLiveSeconds=180；
+        表示此缓存最多可以存活3分钟，如果期间超过2分钟未访问 那么此缓存失效
+         -->

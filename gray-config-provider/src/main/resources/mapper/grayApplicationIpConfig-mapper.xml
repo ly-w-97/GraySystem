@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.facishare.wechat.gray.provider.dao.impl.GrayApplicationIpConfigDAOImpl">
+
+    <resultMap id="grayApplicationIpConfigMap" type="grayApplicationIpConfigDO">
+        <id property="id" column="id"/>
+        <result property="ipAddress" column="ip_address"/>
+        <result property="applicationId" column="application_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="describe" column="describe"/>
+    </resultMap>
+
+    <sql id="allColumn">
+        `id`,
+        `ip_address`,
+        `application_id`,
+        `create_time`,
+        `update_time`,
+        `describe`
+    </sql>
+
+    <sql id="updateTimeSql">
+        ,`update_time` = #{updateTime}
+    </sql>
+
+    <sql id="whereStatement">
+        <where>
+            <if test="id != null">
+                AND `id` = #{id}
+            </if>
+            <if test="ipAddress != null">
+                AND `ip_address` = #{ipAddress}
+            </if>
+            <if test="applicationId != null">
+                AND `application_id` = #{applicationId}
+            </if>
+        </where>
+    </sql>
+
+    <update id="updateApplicationIPConfig" parameterType="grayApplicationIpConfigDO">
+        UPDATE `gray_application_ip_config` SET `ip_address` = #{ipAddress}
+        ,`application_id` = #{applicationId}
+        ,`describe` = #{describe}
+        <include refid="updateTimeSql"/>
+        WHERE id = #{id}
+    </update>
+
+    <select id="queryGrayApplicationIpConfig" parameterType="grayApplicationIpConfigDO" resultMap="grayApplicationIpConfigMap">
+        SELECT
+        <include refid="allColumn"/>
+        from gray_application_ip_config
+        <include refid="whereStatement"/>
+    </select>
+
+    <select id="queryGrayApplicationIpConfigPageCount" parameterType="map" resultType="long">
+        select COUNT(*) from `gray_application_ip_config`
+        <include refid="whereStatement"/>
+    </select>
+
+    <select id="queryGrayApplicationIpConfigPageList" parameterType="map" resultMap="grayApplicationIpConfigMap">
+        SELECT
+        <include refid="allColumn"/>
+        FROM `gray_application_ip_config`
+        <include refid="whereStatement"/>
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <delete id="delGrayApplicationIpConfig" parameterType="map">
+        DELETE FROM `gray_application_ip_config` WHERE id = #{id}
+    </delete>
+
+    <insert id="insertGrayApplicationIpConfig" parameterType="grayApplicationIpConfigDO" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO `gray_application_ip_config`
+        (
+        ip_address,
+        application_id,
+        create_time,
+        `describe`
+        )
+        VALUES
+        (
+        #{ipAddress},
+        #{applicationId},
+        #{createTime},
+        #{describe}
+        )
+    </insert>
+</mapper>

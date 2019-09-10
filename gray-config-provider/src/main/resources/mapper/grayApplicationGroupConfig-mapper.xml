@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.facishare.wechat.gray.provider.dao.impl.GrayApplicationGroupConfigDAOImpl">
+
+    <resultMap id="grayApplicationGroupConfigMap" type="grayApplicationGroupConfigDO">
+        <id property="id" column="id"/>
+        <result property="groupName" column="group_name"/>
+        <result property="fsEas" column="fs_eas"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="status" column="status"/>
+        <result property="describe" column="describe"/>
+    </resultMap>
+
+    <sql id="allColumn">
+        `id`,
+        `group_name`,
+        `fs_eas`,
+        `create_time`,
+        `update_time`,
+        `status`,
+        `describe`
+    </sql>
+
+    <sql id="updateTimeSql">
+        ,`update_time` = #{updateTime}
+    </sql>
+
+    <sql id="whereStatement">
+        <where>
+            <if test="id != null">
+                AND `id` = #{id}
+            </if>
+            <if test="groupName != null and groupName != ''">
+                AND `group_name` = #{groupName}
+            </if>
+            <if test="status != null and status != ''">
+                AND `status` = #{status}
+            </if>
+            <if test="fsEas != null and fsEas != ''">
+                AND `fs_eas` like '%${fsEas}%'
+            </if>
+        </where>
+    </sql>
+
+    <update id="updateGroupConfig" parameterType="grayApplicationGroupConfigDO">
+        UPDATE `gray_application_group_config` SET `group_name` = #{groupName}
+        , `fs_eas` = #{fsEas}
+        ,  `status` = #{status}
+        ,  `describe` = #{describe}
+        <include refid="updateTimeSql"/>
+        WHERE `id` = #{id}
+    </update>
+
+    <select id="queryGrayApplicationGroupConfig" parameterType="grayApplicationGroupConfigDO" resultMap="grayApplicationGroupConfigMap">
+        SELECT
+        <include refid="allColumn"/>
+        from gray_application_group_config
+        <include refid="whereStatement"/>
+    </select>
+
+    <select id="queryGrayApplicationGroupConfigPageCount" parameterType="map" resultType="long">
+        select COUNT(*) from `gray_application_group_config`
+        <include refid="whereStatement"/>
+    </select>
+
+    <select id="queryGrayApplicationGroupConfigPageList" parameterType="map" resultMap="grayApplicationGroupConfigMap">
+        SELECT
+        <include refid="allColumn"/>
+        FROM `gray_application_group_config`
+        <include refid="whereStatement"/>
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <delete id="delGrayApplicationGroupConfig" parameterType="map">
+        DELETE FROM `gray_application_group_config` WHERE id = #{id}
+    </delete>
+
+    <insert id="insertGrayApplicationGroupConfig" parameterType="grayApplicationGroupConfigDO" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO `gray_application_group_config`
+        (
+        group_name,
+        fs_eas,
+        create_time,
+        status,
+        `describe`
+        )
+        VALUES
+        (
+        #{groupName},
+        #{fsEas},
+        #{createTime},
+        #{status},
+        #{describe}
+        )
+    </insert>
+</mapper>

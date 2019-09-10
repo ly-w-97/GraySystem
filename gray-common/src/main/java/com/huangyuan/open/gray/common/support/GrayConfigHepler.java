@@ -1,8 +1,5 @@
 package com.huangyuan.open.gray.common.support;
 
-import com.github.autoconf.ConfigFactory;
-import com.github.autoconf.api.IChangeableConfig;
-import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -14,16 +11,14 @@ import java.util.List;
 @Component
 public class GrayConfigHepler {
 
-    private IChangeableConfig config = ConfigFactory.getInstance().getConfig("fs-eservice-gray-config");
-
+    /**
+     * 获取需要走灰度的接口列表，形如：
+     * com.facishare.eservice.cases.api.service.MigrateService#addWorkOrderField
+     */
     public List<String> getGrayInterfaceList() {
-        String grayInterfaceStr = config.get("gray.interface.list");
 
-        String[] grayInterfaceArr = grayInterfaceStr.split(";");
-
-        List<String> grayInterfaces = new ArrayList<>(grayInterfaceArr.length);
-
-        CollectionUtils.addAll(grayInterfaces, grayInterfaceArr);
+        // todo 从配置中心获取你们的灰度接口列表
+        List<String> grayInterfaces = new ArrayList<>();
 
         return grayInterfaces;
     }

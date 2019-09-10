@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.facishare.wechat.gray.provider.dao.impl.GrayApplicationInfoDAOImpl">
+
+    <resultMap id="grayApplicationInfoMap" type="grayApplicationInfoDO">
+        <id property="id" column="id"/>
+        <result property="applicationName" column="application_name"/>
+        <result property="groupId" column="group_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="status" column="status"/>
+        <result property="describe" column="describe"/>
+        <result property="ipAddress" column="ip_address"/>
+    </resultMap>
+
+    <sql id="allColumn">
+        `id`,
+        `application_name`,
+        `group_id`,
+        `create_time`,
+        `update_time`,
+        `status`,
+        `describe`,
+        `ip_address`
+    </sql>
+
+    <sql id="updateTimeSql">
+        ,`update_time` = #{updateTime}
+    </sql>
+
+    <sql id="whereStatement">
+        <where>
+            <if test="id != null">
+                AND `id` = #{id}
+            </if>
+            <if test="applicationName != null and applicationName != ''">
+                AND `application_name` = #{applicationName}
+            </if>
+            <if test="groupId != null and groupId != ''">
+                AND `group_id` = #{groupId}
+            </if>
+            <if test="status != null and status != ''">
+                AND `status` = #{status}
+            </if>
+        </where>
+    </sql>
+
+    <update id="updateGrayApplicationInfo" parameterType="grayApplicationInfoDO">
+        UPDATE `gray_application_info` SET `application_name` = #{applicationName}
+        ,`describe` = #{describe}
+        ,`group_id` = #{groupId}
+        ,`ip_address` = #{ipAddress}
+        ,`status` = #{status}
+        <include refid="updateTimeSql"/>
+       WHERE id = #{id}
+    </update>
+
+    <select id="queryGrayApplicationInfo" parameterType="grayApplicationInfoDO" resultMap="grayApplicationInfoMap">
+        SELECT
+        <include refid="allColumn"/>
+        from gray_application_info
+        <include refid="whereStatement"/>
+    </select>
+
+    <select id="queryGrayApplicationInfoPageCount" parameterType="map" resultType="long">
+        select COUNT(*) from `gray_application_info`
+        <include refid="whereStatement"/>
+    </select>
+
+    <select id="queryGrayApplicationInfoPageList" parameterType="map" resultMap="grayApplicationInfoMap">
+        SELECT
+        <include refid="allColumn"/>
+        FROM `gray_application_info`
+        <include refid="whereStatement"/>
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <delete id="delGrayApplicationInfo" parameterType="map">
+        DELETE FROM `gray_application_info` WHERE id = #{id}
+    </delete>
+
+    <insert id="insertGrayApplicationInfo" parameterType="grayApplicationInfoDO" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO `gray_application_info`
+        (
+        application_name,
+        group_id,
+        create_time,
+          status,
+        `describe`,
+        ip_address
+        )
+        VALUES
+        (
+        #{applicationName},
+        #{groupId},
+        #{createTime},
+        #{status},
+        #{describe},
+        #{ipAddress}
+        )
+    </insert>
+</mapper>

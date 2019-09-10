@@ -16,6 +16,7 @@
     <module>gray-config-admin</module>
     <module>gray-proxy-api</module>
     <module>gray-proxy-provider</module>
+      <module>gray-base</module>
   </modules>
   <packaging>pom</packaging>
 
@@ -26,6 +27,7 @@
     <dubbo.version>2.6.6</dubbo.version>
     <spring.version>5.1.9.RELEASE</spring.version>
     <slf4j-api.verson>1.7.5</slf4j-api.verson>
+    <gray-base.verson>1.0-SNAPSHOT</gray-base.verson>
   </properties>
 
   <dependencies>
@@ -94,7 +96,35 @@
       <version>20.0</version>
     </dependency>
 
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.9</version>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-collections</groupId>
+      <artifactId>commons-collections</artifactId>
+      <version>3.2.2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.mybatis</groupId>
+      <artifactId>mybatis</artifactId>
+      <version>3.4.6</version>
+    </dependency>
+
   </dependencies>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>com.huangyuan.open</groupId>
+        <artifactId>gray-base</artifactId>
+        <version>${gray-base.verson}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
   <build>
     <finalName>gray-system</finalName>
