@@ -1,7 +1,7 @@
 # 灰度系统
 
 ## 概要及背景
-为了保证线上业务质量，因此做了一套后台灰度系统。通过简易的配置即可将系统进行灰度
+为了保证线上业务质量，因此做了一套后台灰度系统。通过简易的配置即可将系统进行灰度。该系统已在线上生产环境正式运行1年<br/><br/>
 
 ## 功能点
 - 可以基于单个服务灰度（也可以整体控制灰度）
@@ -10,6 +10,11 @@
 - mq灰度
 - 接入层与服务之间的灰度调用
 - 服务于服务之间的灰度调用
+<br/><br/>
+
+## 系统组成
+整体分为：灰度配置服务、代理服务、灰度组件（核心）
+![Snip20180920_1](http://ww2.sinaimg.cn/large/006y8mN6gy1g6ua2h29mdj30z20h075i.jpg)
 
 
 ## 使用方法：
@@ -37,9 +42,7 @@ PS：简单来说，除了web接入层的项目，其他项目只要<br/>
  （1）创建com.alibaba.dubbo.rpc.Filter、com.alibaba.dubbo.rpc.cluster.LoadBalance文件
  （2）导入`<import resource="classpath*:/spring/wechat-union-common.xml"/>`
  （3）（3）灰度机器，需要部署2台。正常机器一台即可（之所以灰度机器需要两台以上，是因为只部署一台的话，那么新的接口service只有1个invoker，因此不经过loadBalance，因此没有给group赋值，因此去provider侧寻找invoker的时候，会找不到）
-
-
-## 架构层次
+<br/><br/>
 
 
 
@@ -51,7 +54,7 @@ PS：简单来说，除了web接入层的项目，其他项目只要<br/>
 
 具体流程如图：
 ![Snip20180920_1](http://ww4.sinaimg.cn/large/006y8mN6gy1g6tirria2mj31m60i6aem.jpg)
-
+<br/><br/>
 
 
 ### 动态路由
@@ -73,7 +76,7 @@ PS：简单来说，除了web接入层的项目，其他项目只要<br/>
 通过查看源代码，在provider侧获取exporter进行调用时，使用invocation获取group值，利用该值组成key，因此，如果在consumer消费之前，可以通过invocation设置group的值（调用灰度服务，则设置为对应的灰度group；调用正式服务，则设置为”“，因为”“不会被添加到key中），就可以获取得到exporter，从而达到调用灰度/正式服务的效果
 
 ![Snip20180920_5](http://ww4.sinaimg.cn/large/006y8mN6gy1g6tk21ugc2j30te0zon2x.jpg)
-
+<br/><br/>
 
 
 ### 代理层实现外部调用灰度
