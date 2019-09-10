@@ -7,7 +7,15 @@
   <groupId>com.huangy.open</groupId>
   <artifactId>gray-system</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <packaging>war</packaging>
+    <modules>
+        <module>gay-common</module>
+      <module>gray-config-api</module>
+      <module>gray-common</module>
+      <module>gray-config-provider</module>
+      <module>gray-proxy-api</module>
+      <module>gray-proxy-provider</module>
+    </modules>
+    <packaging>pom</packaging>
 
   <name>gray-system Maven Webapp</name>
   <!-- FIXME change it to the project's website -->
