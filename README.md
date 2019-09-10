@@ -43,7 +43,7 @@
 PS：简单来说，除了web接入层的项目，其他项目只要<br/>
  （1）创建com.alibaba.dubbo.rpc.Filter、com.alibaba.dubbo.rpc.cluster.LoadBalance文件
  （2）导入`<import resource="classpath*:/spring/wechat-union-common.xml"/>`
-<br/><br/>
+
 
 
 ### 机器准备
@@ -51,7 +51,7 @@ PS：简单来说，除了web接入层的项目，其他项目只要<br/>
 
 灰度机器，需要部署2台。正常机器一台即可（之所以灰度机器需要两台以上，是因为只部署一台的话，那么新的接口service只有1个invoker，
 因此不经过loadBalance，因此没有给group赋值，因此去provider侧寻找invoker的时候，会找不到）
-
+<br/><br/>
 
 
 ## 实现原理
