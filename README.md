@@ -18,6 +18,8 @@
 
 
 ## 使用方法：
+
+### 服务引入灰度配置
 1、创建 META-INF.dubbo文件夹
   
 2、配置filter <br/>
@@ -41,8 +43,14 @@
 PS：简单来说，除了web接入层的项目，其他项目只要<br/>
  （1）创建com.alibaba.dubbo.rpc.Filter、com.alibaba.dubbo.rpc.cluster.LoadBalance文件
  （2）导入`<import resource="classpath*:/spring/wechat-union-common.xml"/>`
- （3）（3）灰度机器，需要部署2台。正常机器一台即可（之所以灰度机器需要两台以上，是因为只部署一台的话，那么新的接口service只有1个invoker，因此不经过loadBalance，因此没有给group赋值，因此去provider侧寻找invoker的时候，会找不到）
 <br/><br/>
+
+
+### 机器准备
+灰度机器2台（如果外部依赖的都是旧接口，1台就好了），正式机器1台
+
+灰度机器，需要部署2台。正常机器一台即可（之所以灰度机器需要两台以上，是因为只部署一台的话，那么新的接口service只有1个invoker，
+因此不经过loadBalance，因此没有给group赋值，因此去provider侧寻找invoker的时候，会找不到）
 
 
 
@@ -80,7 +88,11 @@ PS：简单来说，除了web接入层的项目，其他项目只要<br/>
 
 
 ### 代理层实现外部调用灰度
-
+说明：外部服务调用interface.method1的时候，调用proxy项目的interface.method1，然后获取用户信息（fsEa、wxAppId、appId...），
+从而判断是走灰度服务，还是正常服务，选择完毕，调用project的同名服务
+![Snip20180920_1](http://ww4.sinaimg.cn/large/006y8mN6gy1g6ubrnme3vj30t604rglu.jpg)
 
 
 ### mq灰度处理
+每一个服务定时拉取灰度配置，判读该服务所处的机器是否灰度机器。
+灰度机器则初始化mq，可以处理mq消息；正式机器则关闭mq，不处理mq消息。
