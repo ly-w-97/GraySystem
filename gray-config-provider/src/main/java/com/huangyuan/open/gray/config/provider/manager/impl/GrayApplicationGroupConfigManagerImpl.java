@@ -1,6 +1,6 @@
 package com.huangyuan.open.gray.config.provider.manager.impl;
 
-import com.facishare.open.common.storage.mysql.dao.Pager;
+import com.huangyuan.open.gray.base.common.Pager;
 import com.huangyuan.open.gray.config.provider.dao.GrayApplicationGroupConfigDAO;
 import com.huangyuan.open.gray.config.provider.manager.GrayApplicationGroupConfigManager;
 import com.huangyuan.open.gray.config.provider.model.entity.GrayApplicationGroupConfigDO;
@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  *
- * @author suxq
+ * @author huangy
  * @date 2018/8/27
  */
 @Service

@@ -1,6 +1,6 @@
 package com.huangyuan.open.gray.config.provider.manager.impl;
 
-import com.facishare.wechat.gray.api.constant.StatusTypeEnum;
+import com.huangyuan.open.gray.config.api.constant.StatusTypeEnum;
 import com.huangyuan.open.gray.config.provider.constant.GrayConstant;
 import com.huangyuan.open.gray.config.provider.manager.GrayApplicationGroupConfigManager;
 import com.huangyuan.open.gray.config.provider.manager.GrayApplicationHandlerManager;
@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author suxq
+ * @author huangy
  * @date 2018/8/30
  */
 @Service

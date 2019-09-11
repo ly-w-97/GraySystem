@@ -1,10 +1,10 @@
 package com.huangyuan.open.gray.config.provider.dao;
 
-import com.facishare.open.common.storage.mysql.dao.Pager;
+import com.huangyuan.open.gray.base.common.Pager;
 import com.huangyuan.open.gray.config.provider.model.entity.GrayApplicationEaInfoDO;
 
 /**
- * @author suxq
+ * @author huangy
  * @date 2018/8/27
  */
 public interface GrayApplicationEaInfoDAO {

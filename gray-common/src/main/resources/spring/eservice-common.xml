@@ -25,7 +25,7 @@
 
     <dubbo:reference
             id="grayApplicationHandlerService"
-            interface="com.facishare.wechat.gray.api.service.GrayApplicationHandlerService"
+            interface="com.huangyuan.open.gray.config.api.service.GrayApplicationHandlerService"
             version="1.0"/>
 
 </beans>

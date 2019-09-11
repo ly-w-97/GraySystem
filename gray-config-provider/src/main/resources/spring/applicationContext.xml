@@ -23,43 +23,17 @@
 
     <context:annotation-config/>
     <aop:aspectj-autoproxy/>
-    <context:component-scan base-package="com.facishare.wechat.gray.provider"/>
-
-    <!-- Redis配置 -->
-    <bean id="jedisSupport" class="com.github.jedis.support.JedisFactoryBean" p:configName="wechat-union-core-redis"/>
-    <bean id="redisTemplate" class="com.facishare.open.common.storage.redis.RedisTemplate">
-        <property name="jedisCmd" ref="jedisSupport"/>
-    </bean>
+    <context:component-scan base-package="com.huangyuan.open.gray.config.provider"/>
 
     <!--Log Aop-->
-    <bean id="logAspect" class="com.facishare.wechat.gray.provider.aop.LogAspect"/>
+    <bean id="logAspect" class="com.huangyuan.open.gray.config.provider.aop.LogAspect"/>
     <aop:config>
         <aop:aspect id="logMonitor" ref="logAspect">
             <aop:pointcut id="monitor"
-                          expression="execution(* com.facishare.wechat.gray.provider.service.impl..*.*(..))" />
+                          expression="execution(* com.huangyuan.open.gray.config.provider.service.impl..*.*(..))" />
             <aop:around pointcut-ref="monitor" method="around"/>
         </aop:aspect>
     </aop:config>
-
-    <!-- 蜂眼监控 -->
-    <aop:aspectj-autoproxy/>
-    <bean id="serviceProfiler" class="com.github.trace.aop.ServiceProfiler"/>
-    <aop:config>
-        <aop:aspect id="monitor" ref="serviceProfiler">
-            <aop:pointcut id="pointCutAround"
-                          expression="(execution(* com.facishare.wechat.gray.provider.service.impl.*.*(..))) "/>
-            <aop:around method="profile" pointcut-ref="pointCutAround"/>
-        </aop:aspect>
-    </aop:config>
-
-    <!-- 日志中心 -->
-    <bean class="com.fxiaoke.metrics.MetricsConfiguration"/>
-
-    <!-- 分布式锁 -->
-    <bean id="lockUtils" class="com.facishare.open.common.utils.LockUtils">
-        <constructor-arg name="zkUrl" value="${lock.zookeeper.url}" />
-        <constructor-arg name="basePath" value="/conf/lock/eservice-gray" />
-    </bean>
 
     <!-- 开启ehcache缓存 -->
     <cache:annotation-driven cache-manager="cacheManager" />

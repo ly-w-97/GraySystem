@@ -3,7 +3,7 @@ package com.huangyuan.open.gray.config.provider.manager;
 import com.huangyuan.open.gray.config.provider.model.vo.GrayApplicationVO;
 
 /**
- * @author suxq
+ * @author huangy
  */
 public interface GrayApplicationHandlerManager {
     /**

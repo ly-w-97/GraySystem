@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <description>dubbo配置</description>
+
+    <!-- Dubbo应用名称 -->
+    <dubbo:application id="eserviceProxyApplication"
+                       name="${dubbo.application.name}"
+                       owner="${dubbo.application.owner}"
+                       organization="${dubbo.application.organization}"
+                       logger="slf4j"
+                       compiler="javassist"/>
+
+    <!-- 生产端配置  -->
+
+    <!--restful协议-->
+    <dubbo:protocol id="restfulProtocol"
+                    port="${restful.provider.port}"
+                    name="restful"
+                    server="tomcat"
+                    dispatcher="${dubbo.protocol.dispatcher}"
+                    threadpool="${dubbo.protocol.threadpool}"
+                    threads="${dubbo.protocol.threads}"
+                    register="false"/>
+
+    <!--协议-->
+    <dubbo:protocol id="eserviceProxyProtocol"
+                    name="${dubbo.protocol.name}"
+                    port="${dubbo.provider.port}"
+                    dispatcher="${dubbo.protocol.dispatcher}"
+                    threadpool="${dubbo.protocol.threadpool}"
+                    threads="${dubbo.protocol.threads}">
+    </dubbo:protocol>
+
+    <!--注册中心, 在本地开发环境请采用直连方式，可把 register、subscribe 都配置为false-->
+    <dubbo:registry id="eserviceProxyRegistry"
+                    protocol="${dubbo.registry.name}"
+                    address="${dubbo.registry.address}"
+                    client="${dubbo.registry.client}"
+                    session="60000"
+                    register="true"
+                    subscribe="true"
+                    check="false"
+                    file="${dubbo.registry.file}">
+    </dubbo:registry>
+
+    <!--服务-->
+    <dubbo:provider id="eserviceProxyProvider"
+                    application="eserviceProxyApplication"
+                    registry="eserviceProxyRegistry"
+                    protocol="eserviceProxyProtocol"
+                    cluster="${dubbo.provider.cluster}"
+                    loadbalance="${dubbo.provider.loadbalance}"
+                    serialization="${dubbo.provider.serialization}"
+                    retries="${dubbo.provider.retries}"
+                    timeout="${dubbo.provider.timeout}"
+                    proxy="javassist"
+                    delay="-1"
+                    filter="tracerpc"
+                    payload="20971520"> <!-- 配置最大数据传输大小为20M -->
+    </dubbo:provider>
+
+    <!-- 消费端配置  -->
+    <dubbo:registry id="eserviceProxyClientRegistry"
+                    protocol="${dubbo.registry.name}"
+                    address="${dubbo.registry.address}"
+                    check="false">
+    </dubbo:registry>
+
+    <dubbo:consumer id="eserviceProxyConsumer"
+                    registry="eserviceProxyClientRegistry"
+                    init="false"
+                    check="${dubbo.consumer.check}"
+                    timeout="${dubbo.consumer.timeout}"
+                    retries="${dubbo.consumer.retries}"
+                    filter="tracerpc"/>
+
+</beans>

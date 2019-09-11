@@ -3,12 +3,12 @@ package com.huangyuan.open.gray.common.component;
 import com.alibaba.dubbo.common.URL;
 import com.alibaba.dubbo.rpc.Invocation;
 import com.alibaba.dubbo.rpc.Invoker;
-import com.facishare.eservice.base.result.EserviceResult;
+import com.huangyuan.open.gray.base.result.EserviceResult;
 import com.huangyuan.open.gray.common.support.GrayConfigHepler;
 import com.huangyuan.open.gray.common.support.GrayHandlerHelper;
 import com.huangyuan.open.gray.common.utils.CommonUitl;
-import com.facishare.wechat.gray.api.service.GrayApplicationHandlerService;
 
+import com.huangyuan.open.gray.config.api.service.GrayApplicationHandlerService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

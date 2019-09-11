@@ -6,13 +6,6 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
-    <bean class="com.github.autoconf.spring.reloadable.ReloadablePropertyPostProcessor"
-          c:placeholderConfigurer-ref="autoConf"/>
-    <bean id="autoConf" class="com.github.autoconf.spring.reloadable.ReloadablePropertySourcesPlaceholderConfigurer"
-          p:fileEncoding="UTF-8"
-          p:ignoreResourceNotFound="true"
-          p:ignoreUnresolvablePlaceholders="false"
-          p:location="classpath:application.properties"
-          p:configName="fs-eservice-gray-provider,eservice-dubbo-common"/>
+    <!-- todo 配置中心的配置 -->
 
 </beans>

@@ -1,11 +1,10 @@
 package com.huangyuan.open.gray.config.provider.service.impl;
 
-
-import com.facishare.common.BeanUtils;
-import com.facishare.eservice.base.result.EserviceResult;
-import com.facishare.wechat.gray.api.constant.GrayErrorCode;
-import com.facishare.wechat.gray.api.model.result.GrayApplicationResult;
-import com.facishare.wechat.gray.api.service.GrayApplicationHandlerService;
+import com.huangyuan.open.gray.base.common.BeanUtils;
+import com.huangyuan.open.gray.base.result.EserviceResult;
+import com.huangyuan.open.gray.config.api.constant.GrayErrorCode;
+import com.huangyuan.open.gray.config.api.model.result.GrayApplicationResult;
+import com.huangyuan.open.gray.config.api.service.GrayApplicationHandlerService;
 import com.huangyuan.open.gray.config.provider.constant.GrayConstant;
 import com.huangyuan.open.gray.config.provider.manager.GrayApplicationHandlerManager;
 import com.huangyuan.open.gray.config.provider.model.vo.GrayApplicationVO;
@@ -19,7 +18,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 
 /**
- * @author suxq
+ * @author huangy
  * @date 2018/8/27
  */
 @Service

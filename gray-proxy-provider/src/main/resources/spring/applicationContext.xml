@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+        xmlns:context="http://www.springframework.org/schema/context"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:p="http://www.springframework.org/schema/p"
+        xmlns:aop="http://www.springframework.org/schema/aop"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:annotation-config/>
+    <aop:aspectj-autoproxy/>
+    <context:component-scan base-package="com.facishare.eservice.proxy.provider"/>
+
+    <import resource="classpath:/spring/spring-cms.xml"/>
+    <import resource="classpath:/spring/dubbo-config.xml"/>
+    <import resource="classpath:/spring/dubbo-provider.xml"/>
+    <import resource="classpath:/spring/dubbo-consumer.xml"/>
+    <import resource="classpath*:/spring/eservice-common.xml"/>
+    <import resource="classpath*:/spring/spring-aop.xml"/>
+
+    <!-- 日志中心 -->
+    <bean class="com.fxiaoke.metrics.MetricsConfiguration"/>
+
+</beans>

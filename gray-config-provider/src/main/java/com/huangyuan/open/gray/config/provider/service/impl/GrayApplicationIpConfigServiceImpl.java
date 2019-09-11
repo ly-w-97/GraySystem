@@ -1,11 +1,11 @@
 package com.huangyuan.open.gray.config.provider.service.impl;
 
-import com.facishare.eservice.base.result.EserviceResult;
-import com.facishare.open.common.storage.mysql.dao.Pager;
-import com.facishare.wechat.gray.api.constant.GrayErrorCode;
-import com.facishare.wechat.gray.api.model.arg.GrayApplicationIpConfigArg;
-import com.facishare.wechat.gray.api.model.result.GrayApplicationIpConfigResult;
-import com.facishare.wechat.gray.api.service.GrayApplicationIpConfigService;
+import com.huangyuan.open.gray.base.common.Pager;
+import com.huangyuan.open.gray.base.result.EserviceResult;
+import com.huangyuan.open.gray.config.api.constant.GrayErrorCode;
+import com.huangyuan.open.gray.config.api.model.arg.GrayApplicationIpConfigArg;
+import com.huangyuan.open.gray.config.api.model.result.GrayApplicationIpConfigResult;
+import com.huangyuan.open.gray.config.api.service.GrayApplicationIpConfigService;
 import com.huangyuan.open.gray.config.provider.constant.GrayConstant;
 import com.huangyuan.open.gray.config.provider.manager.GrayApplicationInfoManager;
 import com.huangyuan.open.gray.config.provider.manager.GrayApplicationIpConfigManager;
@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author suxq
+ * @author huangy
  * @date 2018/8/27
  */
 @Service

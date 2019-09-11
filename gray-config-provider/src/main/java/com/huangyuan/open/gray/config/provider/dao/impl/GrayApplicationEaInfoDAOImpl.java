@@ -1,7 +1,6 @@
 package com.huangyuan.open.gray.config.provider.dao.impl;
 
-
-import com.facishare.open.common.storage.mysql.dao.Pager;
+import com.huangyuan.open.gray.base.common.Pager;
 import com.huangyuan.open.gray.config.provider.dao.GrayApplicationEaInfoDAO;
 import com.huangyuan.open.gray.config.provider.dao.base.CommonDAO;
 import com.huangyuan.open.gray.config.provider.model.entity.GrayApplicationEaInfoDO;
@@ -9,11 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-/**
- *
- * @author suxq
- * @date 2018/8/27
- */
+
 @Repository
 public class GrayApplicationEaInfoDAOImpl extends CommonDAO<GrayApplicationEaInfoDO> implements GrayApplicationEaInfoDAO {
     private Logger LOGGER = LoggerFactory.getLogger(this.getClass());

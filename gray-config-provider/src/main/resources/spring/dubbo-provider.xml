@@ -8,31 +8,31 @@
 
 
     <dubbo:service
-            interface="com.facishare.wechat.gray.api.service.GrayApplicationEaInfoService"
+            interface="com.huangyuan.open.gray.config.api.service.GrayApplicationEaInfoService"
             ref="grayApplicationEaInfoServiceImpl"
             provider="wechatGrayProvider"
             version="1.0"/>
 
     <dubbo:service
-            interface="com.facishare.wechat.gray.api.service.GrayApplicationGroupConfigService"
+            interface="com.huangyuan.open.gray.config.api.service.GrayApplicationGroupConfigService"
             ref="grayApplicationGroupConfigServiceImpl"
             provider="wechatGrayProvider"
             version="1.0"/>
 
     <dubbo:service
-            interface="com.facishare.wechat.gray.api.service.GrayApplicationInfoService"
+            interface="com.huangyuan.open.gray.config.api.service.GrayApplicationInfoService"
             ref="grayApplicationInfoServiceImpl"
             provider="wechatGrayProvider"
             version="1.0"/>
 
     <dubbo:service
-            interface="com.facishare.wechat.gray.api.service.GrayApplicationIpConfigService"
+            interface="com.huangyuan.open.gray.config.api.service.GrayApplicationIpConfigService"
             ref="grayApplicationIpConfigServiceImpl"
             provider="wechatGrayProvider"
             version="1.0"/>
 
     <dubbo:service
-            interface="com.facishare.wechat.gray.api.service.GrayApplicationHandlerService"
+            interface="com.huangyuan.open.gray.config.api.service.GrayApplicationHandlerService"
             ref="grayApplicationHandlerServiceImpl"
             provider="wechatGrayProvider"
             version="1.0"/>

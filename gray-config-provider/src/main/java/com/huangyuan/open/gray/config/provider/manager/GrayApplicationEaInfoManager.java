@@ -1,11 +1,11 @@
 package com.huangyuan.open.gray.config.provider.manager;
 
 
-import com.facishare.open.common.storage.mysql.dao.Pager;
+import com.huangyuan.open.gray.base.common.Pager;
 import com.huangyuan.open.gray.config.provider.model.entity.GrayApplicationEaInfoDO;
 
 /**
- * @author suxq
+ * @author huangy
  * @date 2018/8/27
  */
 public interface GrayApplicationEaInfoManager {
@@ -15,7 +15,7 @@ public interface GrayApplicationEaInfoManager {
      *
      * @return Pager<GrayApplicationEaInfoDO>
      */
-    Pager<GrayApplicationEaInfoDO> queryGrayApplicationEaInfoPage( Pager<GrayApplicationEaInfoDO> queryPage);
+    Pager<GrayApplicationEaInfoDO> queryGrayApplicationEaInfoPage(Pager<GrayApplicationEaInfoDO> queryPage);
 
     /**
      * 查询灰度企业信息

@@ -1,9 +1,9 @@
 package com.huangyuan.open.gray.common.support;
 
-import com.facishare.eservice.base.result.EserviceResult;
-import com.facishare.wechat.gray.api.model.result.GrayApplicationResult;
-import com.facishare.wechat.gray.api.service.GrayApplicationHandlerService;
 
+import com.huangyuan.open.gray.base.result.EserviceResult;
+import com.huangyuan.open.gray.config.api.model.result.GrayApplicationResult;
+import com.huangyuan.open.gray.config.api.service.GrayApplicationHandlerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;

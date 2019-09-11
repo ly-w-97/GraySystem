@@ -1,15 +1,15 @@
 package com.huangyuan.open.gray.config.provider.util;
 
-import com.facishare.wechat.proxy.common.utils.BeanUtil;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.huangyuan.open.gray.base.common.BeanUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.Map;
 
 /**
- * @author suxq
+ * @author huangy
  */
 @Slf4j
 public class StatisticsUtil<T> {

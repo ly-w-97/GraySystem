@@ -1,7 +1,7 @@
 package com.huangyuan.open.gray.config.provider.manager.impl;
 
 
-import com.facishare.open.common.storage.mysql.dao.Pager;
+import com.huangyuan.open.gray.base.common.Pager;
 import com.huangyuan.open.gray.config.provider.dao.GrayApplicationEaInfoDAO;
 import com.huangyuan.open.gray.config.provider.manager.GrayApplicationEaInfoManager;
 import com.huangyuan.open.gray.config.provider.model.entity.GrayApplicationEaInfoDO;
@@ -12,7 +12,7 @@ import javax.annotation.Resource;
 
 /**
  *
- * @author suxq
+ * @author huangy
  * @date 2018/8/27
  */
 @Service

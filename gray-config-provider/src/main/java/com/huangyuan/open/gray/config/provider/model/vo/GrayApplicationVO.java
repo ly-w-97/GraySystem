@@ -1,15 +1,12 @@
 package com.huangyuan.open.gray.config.provider.model.vo;
 
-import com.facishare.wechat.gray.api.constant.StatusTypeEnum;
+
+import com.huangyuan.open.gray.config.api.constant.StatusTypeEnum;
 
 import java.io.Serializable;
 import java.util.List;
 
-/**
- *
- * @author suxq
- * @date 2018/8/30
- */
+
 public class GrayApplicationVO implements Serializable{
 
     /**

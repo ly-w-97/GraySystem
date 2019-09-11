@@ -28,6 +28,8 @@
     <spring.version>5.1.9.RELEASE</spring.version>
     <slf4j-api.verson>1.7.5</slf4j-api.verson>
     <gray-base.verson>1.0-SNAPSHOT</gray-base.verson>
+    <gray-config-api.verson>1.0-SNAPSHOT</gray-config-api.verson>
+    <gray-proxy-api.verson>1.0-SNAPSHOT</gray-proxy-api.verson>
   </properties>
 
   <dependencies>
@@ -114,6 +116,48 @@
       <version>3.4.6</version>
     </dependency>
 
+    <dependency>
+      <groupId>org.mybatis</groupId>
+      <artifactId>mybatis-spring</artifactId>
+      <version>2.0.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-beanutils</groupId>
+      <artifactId>commons-beanutils</artifactId>
+      <version>1.9.2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.16.16</version>
+    </dependency>
+
+    <dependency>
+      <groupId>redis.clients</groupId>
+      <artifactId>jedis</artifactId>
+      <version>2.6.2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.ehcache</groupId>
+      <artifactId>ehcache</artifactId>
+      <version>3.6.3</version>
+    </dependency>
+
+    <dependency>
+      <groupId>c3p0</groupId>
+      <artifactId>c3p0</artifactId>
+      <version>0.9.1.2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.6.2</version>
+    </dependency>
+
   </dependencies>
 
   <dependencyManagement>
@@ -123,6 +167,19 @@
         <artifactId>gray-base</artifactId>
         <version>${gray-base.verson}</version>
       </dependency>
+
+      <dependency>
+        <groupId>com.huangyuan.open</groupId>
+        <artifactId>gray-config-api</artifactId>
+        <version>${gray-config-api.verson}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.huangyuan.open</groupId>
+        <artifactId>gray-proxy-api</artifactId>
+        <version>${gray-proxy-api.verson}</version>
+      </dependency>
+
     </dependencies>
   </dependencyManagement>
 

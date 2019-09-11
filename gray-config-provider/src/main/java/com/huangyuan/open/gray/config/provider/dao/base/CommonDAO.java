@@ -1,6 +1,6 @@
 package com.huangyuan.open.gray.config.provider.dao.base;
 
-import com.facishare.open.common.storage.mysql.dao.BaseDao;
+import com.huangyuan.open.gray.base.common.BaseDao;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionTemplate;
 

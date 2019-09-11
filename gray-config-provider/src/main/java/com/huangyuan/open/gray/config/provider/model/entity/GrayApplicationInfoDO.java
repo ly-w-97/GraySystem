@@ -2,11 +2,7 @@ package com.huangyuan.open.gray.config.provider.model.entity;
 
 import java.io.Serializable;
 
-/**
- *
- * @author suxq
- * @date 2018/8/27
- */
+
 public class GrayApplicationInfoDO implements Serializable{
 
     /**
