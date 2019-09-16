@@ -31,7 +31,9 @@ public enum GrayErrorCode {
     GRAY_APPLICATION_GROUP_DELETE("C320070004", "gray group config have applicationInfo,don't delete it", "(!@#$)wechat_union.gray.code.application_group_delete"),
 
     // 灰度配置不存在
-    GRAY_CONFIG_NOT_EXISTS("C320070005", "gray config is not exists", "灰度配置不存在");
+    GRAY_CONFIG_NOT_EXISTS("C320070005", "gray config is not exists", "灰度配置不存在"),
+
+    EA_IS_NOT_GRAY("C320070005", "the ea is not gray, can not find gray group name", "这是一个非灰度企业，无法找到其所在分组"),
     ;
 
     private String errorCode;

@@ -14,16 +14,13 @@
 
     <context:annotation-config/>
     <aop:aspectj-autoproxy/>
-    <context:component-scan base-package="com.facishare.eservice.proxy.provider"/>
+    <context:component-scan base-package="com.huangyuan.open.gray.proxy.provider"/>
 
     <import resource="classpath:/spring/spring-cms.xml"/>
     <import resource="classpath:/spring/dubbo-config.xml"/>
     <import resource="classpath:/spring/dubbo-provider.xml"/>
     <import resource="classpath:/spring/dubbo-consumer.xml"/>
-    <import resource="classpath*:/spring/eservice-common.xml"/>
+    <import resource="classpath*:/spring/gray-common.xml"/>
     <import resource="classpath*:/spring/spring-aop.xml"/>
-
-    <!-- 日志中心 -->
-    <bean class="com.fxiaoke.metrics.MetricsConfiguration"/>
 
 </beans>

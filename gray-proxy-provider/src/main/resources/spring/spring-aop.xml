@@ -12,38 +12,11 @@
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <!--Log Aop-->
-    <aop:config>
-        <aop:aspect id="logMonitor" ref="logAspect" order="1">
-            <aop:pointcut id="logMonitor"
-                          expression="execution(* com.facishare.eservice.proxy.provider.service.impl..*.*(..))" />
-            <aop:around pointcut-ref="logMonitor" method="around"/>
-        </aop:aspect>
-    </aop:config>
-
     <!-- 用户身份埋点 -->
     <aop:config>
         <aop:aspect id="userInfoAspect" ref="userInfoAspect" order="2">
-            <aop:pointcut id="userInfoMonitor" expression="execution(* com.facishare.eservice.proxy.provider.service.impl..*.*(..))" />
+            <aop:pointcut id="userInfoMonitor" expression="execution(* com.huangyuan.open.gray.proxy.provider.service.impl..*.*(..))" />
             <aop:around pointcut-ref="userInfoMonitor" method="around"/>
-        </aop:aspect>
-    </aop:config>
-
-    <!-- 全局异常拦截 -->
-    <aop:config>
-        <aop:aspect id="exceptionAspect" ref="exceptionAspect" order="10">
-            <aop:pointcut id="exceptionMonitor" expression="execution(* com.facishare.eservice.proxy.provider.service.impl..*.*(..))" />
-            <aop:around pointcut-ref="exceptionMonitor" method="around"/>
-        </aop:aspect>
-    </aop:config>
-
-    <!-- 蜂眼监控 -->
-    <bean id="serviceProfiler" class="com.github.trace.aop.ServiceProfiler"/>
-    <aop:config>
-        <aop:aspect id="monitor" ref="serviceProfiler" order="3">
-            <aop:pointcut id="pointCutAround"
-                          expression="(execution(* com.facishare.eservice.cases.provider.service.impl..*.*(..))) "/>
-            <aop:around method="profile" pointcut-ref="pointCutAround"/>
         </aop:aspect>
     </aop:config>
 

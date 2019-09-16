@@ -1,8 +1,5 @@
 package com.huangyuan.open.gray.proxy.provider.aop;
 
-import com.facishare.eservice.cases.api.utils.FsUserVoUtils;
-import com.huangyuan.open.gray.proxy.provider.component.UserContextHolder;
-import com.facishare.open.common.model.FsUserVO;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.springframework.stereotype.Component;
 
@@ -23,13 +20,10 @@ public class UserInfoAspect {
     }
 
     private void buryFsUserVO(ProceedingJoinPoint point) {
-		FsUserVO fsUserVO = FsUserVoUtils.getFsUserVo(point.getArgs());
-		if (fsUserVO != null) {
-			UserContextHolder.getFsUserVOHolder().set(fsUserVO);
-		}
+		// TODO by huangy on 2019-09-16. 埋入身份信息
 	}
 
 	private void clearFsUserVO() {
-		UserContextHolder.resetFsUserVO();
+		// TODO by huangy on 2019-09-16. 清空线程变量的身份信息
 	}
 }

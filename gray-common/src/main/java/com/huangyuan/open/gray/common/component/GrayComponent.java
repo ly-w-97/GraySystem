@@ -3,17 +3,15 @@ package com.huangyuan.open.gray.common.component;
 import com.alibaba.dubbo.common.URL;
 import com.alibaba.dubbo.rpc.Invocation;
 import com.alibaba.dubbo.rpc.Invoker;
-import com.huangyuan.open.gray.base.result.EserviceResult;
+
 import com.huangyuan.open.gray.common.support.GrayConfigHepler;
 import com.huangyuan.open.gray.common.support.GrayHandlerHelper;
 import com.huangyuan.open.gray.common.utils.CommonUitl;
-
-import com.huangyuan.open.gray.config.api.service.GrayApplicationHandlerService;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 
@@ -31,8 +29,6 @@ public class GrayComponent {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GrayComponent.class);
 
-    @Resource
-    private GrayApplicationHandlerService grayApplicationHandlerService;
     @Resource
     private GrayHandlerHelper grayHandlerHelper;
     @Resource
@@ -53,10 +49,13 @@ public class GrayComponent {
      * @return 符合条件的invoker
      */
     public <T> Invoker<T> selectByEa(List<Invoker<T>> invokers, URL url, Invocation invocation,
-                                          String fsEa, CustomLoadBalance loadBalance) {
+                                     String fsEa, CustomLoadBalance loadBalance) {
 
         // 临时invoker数组，里面可能是正常invoker、也可能是灰度invoker，具体看处理逻辑
         List<Invoker<T>> temInvokers = new ArrayList<>();
+
+        // 获取消费方的applicationName
+        String consumerApplicationName = getConsumerApplicationName(invokers);
 
         // 获取服务名称
         String providerApplicationName = getProviderApplicationName(invokers);
@@ -65,7 +64,8 @@ public class GrayComponent {
         boolean tag = justGray(fsEa, invokers, invocation, providerApplicationName);
 
         // 根据灰度标志进行筛选
-        return filterSelect(invokers, url, invocation, loadBalance, providerApplicationName, temInvokers, tag);
+        return filterSelect(invokers, url, invocation, loadBalance,
+                providerApplicationName, temInvokers, tag, consumerApplicationName, fsEa);
     }
 
     /**
@@ -109,7 +109,8 @@ public class GrayComponent {
             tag = grayHandlerHelper.justGaryByIpAndApplication(consumerApplicationName);
         }
 
-        return filterSelect(invokers, url, invocation, loadBalance, providerApplicationName, temInvokers, tag);
+        return filterSelect(invokers, url, invocation, loadBalance,
+                providerApplicationName, temInvokers, tag, consumerApplicationName, null);
     }
 
     /**
@@ -193,45 +194,6 @@ public class GrayComponent {
         }
     }
 
-
-    /**
-     * 判断该企业是否灰度企业
-     *
-     * @param fsEa                    企业账号
-     * @param providerApplicationName 应用名称
-     * @return boolean
-     */
-    private boolean checkGrayFsEa(String fsEa, String providerApplicationName) {
-
-        try {
-
-            EserviceResult<Boolean> modelResult = grayApplicationHandlerService.checkGrayFsEa(providerApplicationName, fsEa);
-            if (modelResult == null) {
-                LOGGER.error("checkGrayFsEa : grayApplicationHandlerService.checkGrayFsEa, fsEa={}", fsEa);
-                return false;
-            } else if (!modelResult.isSuccess() || (modelResult.getData() == null)) {
-                LOGGER.warn("checkGrayFsEa : grayApplicationHandlerService.checkGrayFsEa, fsEa={}, modelResult={}",
-                        fsEa, modelResult);
-                return false;
-            } else {
-                Boolean result = modelResult.getData();
-                if (result) {
-//                    LOGGER.info("checkGrayFsEa : the fsEa is gray ea, fsEa={}", fsEa);
-                } else {
-//                    LOGGER.info("checkGrayFsEa : the fsEa is not gray ea, fsEa={}", fsEa);
-                }
-                return result;
-            }
-
-        } catch (Exception e) {
-            LOGGER.error("checkGrayFsEa fail, fsEa={}, providerApplicationName={}",
-                    fsEa, providerApplicationName, e);
-            // 降级，走正常服务
-            return false;
-        }
-    }
-
-
     /**
      * 获取provider的applicationName属性值
      *
@@ -290,29 +252,31 @@ public class GrayComponent {
      * @param providerApplicationName 提供方的applicationName
      * @param temInvokers 临时invokers列表
      * @param tag 是否灰度标志   true灰度  false正式
+     * @param consumerApplicationName 消费方的应用名称
+     * @param fsEa 企业账号，可为空
      * @return 经过筛选后的invoker
      */
     private <T> Invoker<T> filterSelect(List<Invoker<T>> invokers, URL url, Invocation invocation,
                                         CustomLoadBalance loadBalance, String providerApplicationName,
-                                        List<Invoker<T>> temInvokers, boolean tag) {
+                                        List<Invoker<T>> temInvokers, boolean tag,
+                                        String consumerApplicationName, String fsEa) {
         // tag标志判断是否灰度
         if (tag) {
 
-            // 查询该服务对应的灰度group
-            String grayGroup = grayHandlerHelper.getGrayGroup(providerApplicationName);
+            String grayGroup = getGrayGroupName(fsEa, consumerApplicationName);
+
+
+            // 选择灰度服务
             if (StringUtils.isNotEmpty(grayGroup)) {
-//                LOGGER.info("select gray provider");
-                // 选择灰度服务
+
                 findGrayService(invokers, temInvokers, grayGroup);
             }
 
             if (CollectionUtils.isEmpty(temInvokers)) {
 
-//                LOGGER.info("select gray provider but no exists, select formal provider");
-
                 // 这个服务没有灰度服务，降级，使用正常服务
                 findFormalService(invokers, temInvokers);
-                setGroupInfo(invocation, "");
+                setGroupInfo(invocation, StringUtils.EMPTY);
 
             } else {
                 // 已经筛选出灰度服务，把url字段的group改成灰度值
@@ -320,12 +284,21 @@ public class GrayComponent {
             }
 
         } else {
-//            LOGGER.info("select formal provider");
+
             // 选择正常服务
             findFormalService(invokers, temInvokers);
 
-            // 筛选出正常服务，把url字段的group值设置为空字符串
-            setGroupInfo(invocation, "");
+            if (CollectionUtils.isEmpty(temInvokers)) {
+
+                // 这个服务没有正常服务，降级，使用灰度服务
+                String grayGroup = getGrayGroupName(fsEa, consumerApplicationName);
+                findGrayService(invokers, temInvokers, grayGroup);
+                setGroupInfo(invocation, grayGroup);
+
+            } else {
+                // 已经筛选出正常服务，把url字段的group值设置为空字符串
+                setGroupInfo(invocation, "");
+            }
         }
 
         // 到这里，正常情况下，肯定已经筛选出invoker列表了
@@ -341,6 +314,23 @@ public class GrayComponent {
                 // 选出的服务如果大于1，再进行负载均衡策略
                 return loadBalance.superFilterSelect(temInvokers, url, invocation);
             }
+        }
+    }
+
+    /**
+     * 获取灰度分组名称
+     *
+     * 如果有企业账号
+     *     判断该企业账号属于哪个灰度分组，获取该分组名称
+     * 没有企业账号
+     *     获取消费者的group（通过消费方的applicationName{也就是当前应用的名称}，和当前机器ip可以获取到当前服务的group），根据该group筛选出生产者
+     *     如果消费者的group为空 或者为*，则调用正常服务
+     */
+    private String getGrayGroupName(String fsEa, String consumerApplicationName) {
+        if (StringUtils.isEmpty(fsEa)) {
+            return grayHandlerHelper.getGrayGroupByConsumerApplication(consumerApplicationName);
+        } else {
+            return grayHandlerHelper.getGrayApplicationGroupNameByEa(fsEa);
         }
     }
 
@@ -405,7 +395,7 @@ public class GrayComponent {
             }
 
             // 如果没有强制走灰度服务，则再根据身份态判断
-            return checkGrayFsEa(fsEa, providerApplicationName);
+            return grayHandlerHelper.checkGrayFsEa(fsEa, providerApplicationName);
         }
     }
 }

@@ -2,6 +2,9 @@ package com.huangyuan.open.gray.common.support;
 
 
 import com.huangyuan.open.gray.base.result.EserviceResult;
+import com.huangyuan.open.gray.config.api.model.arg.GetGrayApplicationConfigNewArg;
+import com.huangyuan.open.gray.config.api.model.arg.GetGrayApplicationGroupConfigByEaArg;
+import com.huangyuan.open.gray.config.api.model.result.GetGrayApplicationGroupConfigByEaResult;
 import com.huangyuan.open.gray.config.api.model.result.GrayApplicationResult;
 import com.huangyuan.open.gray.config.api.service.GrayApplicationHandlerService;
 import org.slf4j.Logger;
@@ -98,6 +101,49 @@ public class GrayHandlerHelper {
         }
     }
 
+    // 获取本机IP
+    public static String getLocalIp() {
+        try {
+            return InetAddress.getLocalHost().getHostAddress();
+        } catch (Exception e) {
+            LOGGER.error("get local ip fail", e);
+            return null;
+        }
+    }
+
+    private boolean justThisIpIsGray(List<String> grayIpList, String ip) {
+        return (grayIpList.contains("all") || grayIpList.contains(ip));
+    }
+
+    /**
+     * 获取当前这个服务的灰度分组
+     * @param applicationName 服务名称
+     * @return group的值
+     */
+    public String getGrayGroupByConsumerApplication(String applicationName) {
+        // 查询该服务的灰度配置
+        GetGrayApplicationConfigNewArg arg = new GetGrayApplicationConfigNewArg();
+        arg.setApplicationName(applicationName);
+        arg.setIp(getLocalIp());
+        EserviceResult<GrayApplicationResult> modelResult = grayApplicationHandlerService.getGrayApplicationConfigNew(arg);
+
+        if (modelResult == null) {
+            LOGGER.error("getGrayGroupByConsumerApplication : grayApplicationHandlerService.getGrayApplicationConfigNew fail, modelResult is null, applicationName={}",
+                    applicationName);
+            return null;
+
+        } else if (!modelResult.isSuccess() || (modelResult.getData() == null)) {
+            LOGGER.warn("getGrayGroupByConsumerApplication : grayApplicationHandlerService.getGrayApplicationConfigNew fail, modelResult={}, applicationName={}",
+                    modelResult, applicationName);
+            return null;
+
+        } else {
+            GrayApplicationResult result = modelResult.getData();
+
+            return result.getGroupName();
+        }
+    }
+
     /**
      * 判断这台机器上、这个服务是否灰度服务
      * @param applicationName 服务名称
@@ -106,7 +152,10 @@ public class GrayHandlerHelper {
     public boolean justGaryByIpAndApplication(String applicationName) {
         try {
             // 查询该服务的灰度配置
-            EserviceResult<GrayApplicationResult> modelResult = grayApplicationHandlerService.getGrayApplicationConfig(applicationName);
+            GetGrayApplicationConfigNewArg arg = new GetGrayApplicationConfigNewArg();
+            arg.setApplicationName(applicationName);
+            arg.setIp(getLocalIp());
+            EserviceResult<GrayApplicationResult> modelResult = grayApplicationHandlerService.getGrayApplicationConfigNew(arg);
 
             if (modelResult == null) {
                 LOGGER.error("justGaryByIpAndApplication : grayApplicationHandlerService.justGaryByIpAndApplication fail, modelResult is null, applicationName={}",
@@ -149,17 +198,62 @@ public class GrayHandlerHelper {
         }
     }
 
-    // 获取本机IP
-    public static String getLocalIp() {
+    /**
+     * 判断该企业是否灰度企业
+     *
+     * @param fsEa                    企业账号
+     * @param providerApplicationName 应用名称
+     * @return boolean
+     */
+    public boolean checkGrayFsEa(String fsEa, String providerApplicationName) {
+
         try {
-            return InetAddress.getLocalHost().getHostAddress();
+
+            EserviceResult<Boolean> modelResult = grayApplicationHandlerService.checkGrayFsEa(providerApplicationName, fsEa);
+            if (modelResult == null) {
+                LOGGER.error("checkGrayFsEa : grayApplicationHandlerService.checkGrayFsEa, fsEa={}", fsEa);
+                return false;
+            } else if (!modelResult.isSuccess() || (modelResult.getData() == null)) {
+                LOGGER.warn("checkGrayFsEa : grayApplicationHandlerService.checkGrayFsEa, fsEa={}, modelResult={}",
+                        fsEa, modelResult);
+                return false;
+            } else {
+                Boolean result = modelResult.getData();
+                if (result) {
+//                    LOGGER.info("checkGrayFsEa : the fsEa is gray ea, fsEa={}", fsEa);
+                } else {
+//                    LOGGER.info("checkGrayFsEa : the fsEa is not gray ea, fsEa={}", fsEa);
+                }
+                return result;
+            }
+
         } catch (Exception e) {
-            LOGGER.error("get local ip fail", e);
-            return null;
+            LOGGER.error("checkGrayFsEa fail, fsEa={}, providerApplicationName={}",
+                    fsEa, providerApplicationName, e);
+            // 降级，走正常服务
+            return false;
         }
     }
 
-    private boolean justThisIpIsGray(List<String> grayIpList, String ip) {
-        return (grayIpList.contains("all") || grayIpList.contains(ip));
+    /**
+     * 找到该企业所属的分组名称
+     * @param fsEa 企业名称
+     */
+    public String getGrayApplicationGroupNameByEa(String fsEa) {
+        try {
+            GetGrayApplicationGroupConfigByEaArg arg = new GetGrayApplicationGroupConfigByEaArg();
+            arg.setFsEa(fsEa);
+            EserviceResult<GetGrayApplicationGroupConfigByEaResult> result = grayApplicationHandlerService.getGrayApplicationGroupConfigByEa(arg);
+
+            if (!result.isSuccess() || (result.getData() == null)) {
+                LOGGER.warn("getGrayApplicationGroupNameByEa fail, arg={}, result={}", arg, result);
+                return null;
+            }
+
+            return result.getData().getGroupName();
+        } catch (Exception e) {
+            LOGGER.error("getGrayApplicationGroupNameByEa fail, Exception occur, fsEa={}", fsEa, e);
+            return null;
+        }
     }
 }
