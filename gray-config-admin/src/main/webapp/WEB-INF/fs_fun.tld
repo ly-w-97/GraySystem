@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+	version="2.0">
+	<description>my jstl functions library</description>
+	<display-name>my jstl functions</display-name>
+	<tlib-version>1.0</tlib-version>
+	<short-name>fs-fun</short-name>
+	<uri>/fs-fun</uri>
+	
+    <function>
+    	<!--EL页面调用名字-->
+		<name>parseLongCalendarString</name>
+		<!--指定标签的处理类，指定了标签由哪个Java类来处理。-->
+		<function-class>com.facishare.pay.admin.utils.TldUtils</function-class>
+		<!--指定EL页面调用名字中实际调用的方法.指定处理类的实际方法.参数和回调函数要写完整路径-->
+		<function-signature>java.util.String parseString(java.lang.Long)</function-signature>
+    </function>
+    
+    <function>
+		<name>strictClosedPhone</name>
+		<function-class>com.facishare.pay.admin.utils.TldUtils</function-class>
+		<function-signature>java.util.String strictClosedPhone(java.lang.String)</function-signature>
+    </function>
+    
+    <function>
+		<name>strictCloseIdCard</name>
+		<function-class>com.facishare.pay.admin.utils.TldUtils</function-class>
+		<function-signature>java.util.String strictCloseIdCard(java.lang.String)</function-signature>
+    </function>
+    
+    <function>
+		<name>strictCloseUserName</name>
+		<function-class>com.facishare.pay.admin.utils.TldUtils</function-class>
+		<function-signature>java.util.String strictClosedUserName(java.lang.String)</function-signature>
+    </function>
+    
+    <function>
+		<name>parseLongCalendarStringFormat</name>
+		<function-class>com.facishare.pay.admin.utils.TldUtils</function-class>
+		<function-signature>java.util.String parseStringFormat(java.lang.Long, java.lang.String)</function-signature>
+    </function>
+    
+	<function>
+		<name>parseEAGetMoneyStatus2Description</name>
+		<function-class>com.facishare.pay.admin.utils.TldUtils</function-class>
+		<function-signature>java.util.String getMoneyStatus2Description(java.lang.Integer)</function-signature>
+    </function>
+	<function>
+		<name>parseEAPayStatus2Description</name>
+		<function-class>com.facishare.pay.admin.utils.TldUtils</function-class>
+		<function-signature>java.util.String transferStatus2Description(java.lang.Integer)</function-signature>
+    </function>
+	<function>
+		<name>parseEAOrderStatus2Description</name>
+		<function-class>com.facishare.pay.admin.utils.TldUtils</function-class>
+		<function-signature>java.util.String OrderStatus2Description(java.lang.Integer)</function-signature>
+    </function>
+	<function>
+		<name>parseEAOrderType2Description</name>
+		<function-class>com.facishare.pay.admin.utils.TldUtils</function-class>
+		<function-signature>java.util.String OrderType2Description(java.lang.Integer)</function-signature>
+    </function>
+    <!-- 金额转换 -->
+    <function>
+		<name>fenConvertYuan</name>
+		<function-class>com.facishare.pay.admin.utils.TldUtils</function-class>
+		<function-signature>java.util.String fenConvertYuan(java.lang.Long)</function-signature>
+    </function>
+    <function>
+		<name>fenConvertYuanFormat</name>
+		<function-class>com.facishare.pay.admin.utils.TldUtils</function-class>
+		<function-signature>java.util.String fenConvertYuanFormat(java.lang.Long)</function-signature>
+    </function>
+
+    <!-- 枚举 -->
+	<function>
+		<name>findByIndex</name>
+		<function-class>com.facishare.pay.admin.utils.ElEnumUtils</function-class>
+		<function-signature>java.util.Object findByIndex(java.lang.String, java.lang.Object)</function-signature>
+    </function>
+    
+    <function>
+		<name>findByMethod</name>
+		<function-class>com.facishare.pay.admin.utils.ElEnumUtils</function-class>
+		<function-signature>java.util.Object getEnumByMethod(java.lang.String, java.lang.Object, java.lang.String)</function-signature>
+    </function>
+</taglib>
+ 

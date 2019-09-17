@@ -1,7 +1,80 @@
-<!DOCTYPE web-app PUBLIC
- "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
- "http://java.sun.com/dtd/web-app_2_3.dtd" >
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xmlns="http://java.sun.com/xml/ns/javaee"
+		 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+		http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+   
+	<display-name>Admin Web Application</display-name>
+	
+	
+	<servlet>
+        <servlet-name>dispatcher</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>WEB-INF/springmvc-servlet.xml</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>dispatcher</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+	
+	<!-- 用spring Encoding,解决乱码问题 -->  
+    <filter>
+            <filter-name>encodingFilter</filter-name>
+            <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+            <init-param>
+                <param-name>encoding</param-name>
+                <param-value>UTF-8</param-value>
+            </init-param>
+            <init-param>
+                <param-name>forceEncoding</param-name>
+                <param-value>true</param-value>
+            </init-param>
+	</filter>
+         <filter-mapping>
+            <filter-name>encodingFilter</filter-name>
+            <url-pattern>/*</url-pattern>
+        </filter-mapping>
 
-<web-app>
-  <display-name>Archetype Created Web Application</display-name>
+	
+	<jsp-config>
+		<taglib>
+			<taglib-uri>myTagLib</taglib-uri>
+			<taglib-location>/WEB-INF/pager.tld</taglib-location>
+		</taglib>
+		<taglib>
+			<taglib-uri>myTagLib1</taglib-uri>
+			<taglib-location>/WEB-INF/fs_fun.tld</taglib-location>
+		</taglib>
+	</jsp-config>
+
+	<welcome-file-list>
+		<welcome-file>index</welcome-file>
+		<welcome-file>login.jsp</welcome-file>
+	</welcome-file-list>
+	<session-config>
+		<session-timeout>60</session-timeout>
+	</session-config>
+     
+     <servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.xls</url-pattern>
+		<url-pattern>*.png</url-pattern>
+		<url-pattern>*.js</url-pattern>
+		<url-pattern>*.css</url-pattern>
+		<url-pattern>*.xml</url-pattern>
+		<url-pattern>*.gif</url-pattern>
+		<url-pattern>*.jpg</url-pattern>
+		<url-pattern>*.swf</url-pattern>
+		<url-pattern>*.ico</url-pattern>
+		<url-pattern>*.woff2</url-pattern>
+		<url-pattern>*.woff</url-pattern>
+		<url-pattern>*.svg</url-pattern>
+		<url-pattern>*.ttf</url-pattern>
+		<url-pattern>*.eot</url-pattern>
+		<url-pattern>*.otf</url-pattern>
+	</servlet-mapping>
 </web-app>

@@ -36,4 +36,11 @@
             ref="grayApplicationHandlerServiceImpl"
             provider="wechatGrayProvider"
             version="1.0"/>
+
+    <dubbo:service
+            interface="com.huangyuan.open.gray.config.api.service.GraySupportService"
+            ref="graySupportServiceImpl"
+            provider="eserviceCasesProvider"
+            version="1.0"/>
+
 </beans>

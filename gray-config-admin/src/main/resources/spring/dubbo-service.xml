@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://code.alibabatech.com/schema/dubbo
+       http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+	
+	<dubbo:application name="fs-pay-admin" />
+	
+	<dubbo:registry id="payClientRegistry" protocol="${dubbo.registry.name}" client="${dubbo.registry.client}" address="${dubbo.registry.address}" check="${dubbo.consumer.check}" subscribe="true" file="business-registry-cache-sync.properties" />
+
+	<dubbo:reference
+			interface="com.huangyuan.open.gray.config.api.service.GrayApplicationEaInfoService"
+
+</beans>
